@@ -1,7 +1,6 @@
 import argparse
 import socket
 import sys
-
 import ipaddr
 import requests
 from time import time
@@ -55,32 +54,34 @@ def get_ip(url):
         pass
 
 def scan(ip):
-    count=0
+    global count
     for port in Ports:
-        s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
         try:
-            s.settimeout(0.5)
-            s.connect(str(ip),port)
+            s.settimeout(0.6)
+            s.connect((str(ip), port))
+
             if port in Ports_other:
                 url = str(ip) + ":" + str(port)
                 info = "open"
 
             else:
-                if port not in [443]:
-                    protmethod = "http"
-                else:
-                    protmethod = "https"
-                    url = "{protmethod}://{ip}:{port}".format(protmethod=protmethod, ip=ip, port=port)
-                    info = get_web(url)
+                protocol = "http" if port not in [443] else "https"
+                url = "{0}://{1}:{2}".format(protocol, ip, port)
+
+                url = "{protocol}://{ip}:{port}".format(protocol=protocol, ip=ip, port=port)
+
+                info = get_web(url)
 
             if info is None:
                 pass
             else:
-                print("%-28s %-30s\n" % (url, info))
+                sys.stdout.write("%-28s %-30s\n" % (url, info))
                 count += 1
-                s.close()
 
-
+            s.close()
 
         except Exception as e:
             s.close()
@@ -99,16 +100,12 @@ def do_file(url):
 
 def scan_Fuzzscan():
     while not queue.empty():
-        Fuzzscan(queue.get())
+        scan(queue.get())
 
 
 def scan_file():
         while not queue.empty():
             do_file(queue.get())
-
-
-
-
 
 
 
@@ -173,7 +170,6 @@ if __name__ == '__main__':
                         help="Use ip  (192.168.0.1/24)")
     parser.add_argument("-f", dest="file",
                         help="Use file url.txt")
-  
 
     args = parser.parse_args()
 
@@ -181,8 +177,8 @@ if __name__ == '__main__':
         exit(0)
 
     if args.ips:
-        print( 'Target: '  + args.ips + ' | ' + 'Threads: ' + str(
-            Threads)+ '\n')
+        print('Target: ' + args.ips + ' | ' + 'Threads: ' + str(
+            Threads) + '\n')
         Fuzzscan(args.ips)
 
     if args.file:
