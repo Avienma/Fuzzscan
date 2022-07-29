@@ -1,0 +1,6 @@
+requests
+netaddr
+bs4
+lxml
+ipaddr
+BeautifulSoup
