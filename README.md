@@ -10,5 +10,7 @@ python Fuzzscan.py -r 1.1.1.1/24
 ![图片](https://user-images.githubusercontent.com/83112602/181693683-d9a9899c-9e09-4802-8145-208d9c898db2.png)
 
 python Fuzzscan.py -f 1.txt
+txt文件格式必须为ip格式
+![图片](https://user-images.githubusercontent.com/83112602/217805423-d579ee34-a9e4-4134-bf07-41abd2dc9243.png)
 
-![图片](https://user-images.githubusercontent.com/83112602/181693798-229d9ee8-ae38-46b3-afb1-ed5f6c70d72b.png)
+
