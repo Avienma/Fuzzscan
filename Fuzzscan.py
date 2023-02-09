@@ -26,7 +26,7 @@ def Fuzzscan(ips):
     for ip in ips:
         queue.put(ip)
     threads_list = []
-    threads = 100
+    threads = 500
 
     for i in range(threads):
         t = Thread(target=scan)
@@ -43,7 +43,7 @@ def scan():
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
         try:
-            s.settimeout(0.6)
+            s.settimeout(0.4)
             s.connect((str(ip), port))
 
             if port in Ports_other:
@@ -107,8 +107,7 @@ def files(file):
 
 
 if __name__ == '__main__':
-    # Fuzzscan("110.242.68.3")
-
+ 
     parser = argparse.ArgumentParser(
         usage='Fuzzscan -h '
 
